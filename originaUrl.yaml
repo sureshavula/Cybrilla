@@ -1,0 +1,61 @@
+openapi: 4.0.2
+info:
+  title: originalUrl
+  version: "1.0.0"
+servers:
+  - url: 'https://localhost/cybrilla'
+paths:
+  /get/originalUrl:
+    get:
+      summary: returns original url for the shortened url
+      parameters:
+        - shortUrl: shortUrl
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: If LongUrl returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LongUrl'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    LongUrl:
+      type: object
+      required:
+        - longUrl
+       properties:
+        longUrl:
+          type: string
+          example: https://localhost/rest/example/
+      
+        
+    Error:
+      type: object
+      required:
+        - timestamp
+        - message
+      properties:
+        timestamp:
+          type: integer
+          example: 1551076683692
+          description: The time of error occurance
+        message:
+          type: string
+          example: Error returned by application
+          description: The error message thrown by the application

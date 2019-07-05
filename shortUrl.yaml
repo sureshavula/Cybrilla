@@ -1,0 +1,61 @@
+openapi: 4.0.2
+info:
+  title: shortUrl
+  version: "1.0.0"
+servers:
+  - url: 'https://localhost/cybrilla'
+paths:
+  /create/shortUrl:
+    get:
+      summary: creates short url and returns it
+      parameters:
+        - longUrl: longUrl
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: If shorturl created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortUrl'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ShortUrl:
+      type: object
+      required:
+        - shortUrl
+       properties:
+        shortUrl:
+          type: string
+          example: bit.ly/2sd45
+      
+        
+    Error:
+      type: object
+      required:
+        - timestamp
+        - message
+      properties:
+        timestamp:
+          type: integer
+          example: 1551076683692
+          description: The time of error occurance
+        message:
+          type: string
+          example: Error returned by application
+          description: The error message thrown by the application
